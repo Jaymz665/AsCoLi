@@ -4,13 +4,13 @@
 
 ## Prerequisites
   - pydbus
-  - mpd
+
   - pyowm
 
 Get the necessary modules with:
 
 ```    
-pip3 install pydbus python-mpd2 pyowm colorama
+pip3 install pydbus pyowm colorama
 ```
 
 ## Setup
@@ -30,5 +30,5 @@ cd AsCoLi/
 Make sure your watch is already connected via bluetooth and run the example script:
 
 ```
-./example.py
+./ascoli.py
 ```
