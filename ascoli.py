@@ -21,8 +21,8 @@ parser.add_argument(
 args = parser.parse_args()
 
 ADDRESS = "30:95:E3:B9:64:42"
-API_KEY = '9fbc12d3a7e82b6a294cc6b4be5f4819'
-CITY_NAME = 'Великий Новгород'
+OWM_API_KEY = 'xxxxxxxxxxxxxxxxxxxxx'
+CITY_NAME = 'Moscow'
 
 
 app = asteroid.app.App(ADDRESS, verbose=args.verbose)
@@ -30,7 +30,7 @@ app = asteroid.app.App(ADDRESS, verbose=args.verbose)
 app.register_module(ReconnectModule(timeout_base=10))
 app.register_module(TimeSyncModule())
 app.register_module(NotifyModule())
-app.register_module(OWMModule(api_key=API_KEY, city=CITY_NAME))
+app.register_module(OWMModule(api_key=OWM_API_KEY, city=CITY_NAME))
 
 if args.interactive:
     import IPython
