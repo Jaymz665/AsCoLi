@@ -1,6 +1,6 @@
 # AsColi
  AsteroidOS Control with Linux
-(former fork of AsteroidOSLinux)
+(fork of [AsteroidOSLinux](https://github.com/atx/AsteroidOSLinux))
 
 ## Prerequisites
   - pydbus
