@@ -27,7 +27,7 @@ Go to the directory:
 cd AsCoLi/
 ```
 
-Make sure your watch is already connected via bluetooth and run the example script:
+Configure it ascoli.py and run:
 
 ```
 ./ascoli.py
