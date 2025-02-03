@@ -1,5 +1,5 @@
 # AsColi
- AsteroidOS Control with Linux
+(beta) AsteroidOS Control with Linux
  
 (fork of [AsteroidOSLinux](https://github.com/atx/AsteroidOSLinux))
 
