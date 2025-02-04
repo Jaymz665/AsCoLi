@@ -30,7 +30,13 @@ def get_forecast_data(api_key, city_name):
         # Находим минимальную и максимальную температуру за данный день
         day_temps = [forecast.forecast.weathers[j].temperature('kelvin')['temp'] for j in range(start_index, end_index)]
         min_temp.append(min(day_temps))
-        max_temp.append(max(day_temps))
+        
+        if i == 0:
+            # Для первого дня сохраняем ближайшую температуру
+            max_temp.append(day_temps[0])
+        else:
+            # Для остальных дней сохраняем максимальную температуру
+            max_temp.append(max(day_temps))
 
         # Сохраняем идентификатор погоды для первого прогноза дня
         weather_ids.append(forecast.forecast.weathers[start_index].weather_code)
