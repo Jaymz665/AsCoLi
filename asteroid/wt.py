@@ -10,39 +10,35 @@ def get_forecast_data(api_key, city_name):
     # Получаем прогноз погоды на 5 дней с интервалами в 3 часа
     forecast = mgr.forecast_at_place(city_name, '3h')
 
-    # Создаём списки для хранения данных
-    max_temp = []
-    min_temp = []
+    # Создаём словарь для хранения данных по дням
+    temperatures_by_day = {}
+    codes_by_day = {}
+
+    # Проходим по всем прогнозам
+    for weather in forecast.forecast.weathers:
+        date = weather.reference_time('date').strftime('%Y-%m-%d')  # Берём только дату без времени
+        temp_kelvin = weather.temperature('kelvin')['temp']
+        code = weather.weather_code
+        
+        if date not in temperatures_by_day:
+            temperatures_by_day[date] = []
+            codes_by_day[date] = code  # Сохраняем первый попавшийся код погоды для данного дня
+            
+        temperatures_by_day[date].append(temp_kelvin)
+
+    # Формируем итоговые данные
     weather_ids = []
+    min_temp = []
+    max_temp = []
 
-    # Количество прогнозов
-    total_weathers = len(forecast.forecast.weathers)
+    for date, temps in temperatures_by_day.items():
+        min_temp.append(min(temps))  # Минимальная температура
+        max_temp.append(max(temps))  # Максимальная температура
+        weather_ids.append(codes_by_day[date])  # Код погоды
 
-    # Проходим по каждому дню
-    for i in range(min(total_weathers // 8, 5)):
-        day_index_start = i * 8  # Начало дня
-        day_index_end = (i + 1) * 8  # Конец дня
-        
-        # Определяем минимальный и максимальный индекс для данного дня
-        start_index = max(day_index_start, 0)
-        end_index = min(day_index_end, total_weathers)
-        
-        # Находим минимальную и максимальную температуру за данный день
-        day_temps = [forecast.forecast.weathers[j].temperature('kelvin')['temp'] for j in range(start_index, end_index)]
-        min_temp.append(min(day_temps))
-        
-        if i == 0:
-            # Для первого дня сохраняем ближайшую температуру
-            max_temp.append(day_temps[0])
-        else:
-            # Для остальных дней сохраняем максимальную температуру
-            max_temp.append(max(day_temps))
+    # Ограничиваем длину списков до 5 элементов
+    weather_ids = weather_ids[:5]
+    min_temp = min_temp[:5]
+    max_temp = max_temp[:5]
 
-        # Сохраняем идентификатор погоды для первого прогноза дня
-        weather_ids.append(forecast.forecast.weathers[start_index].weather_code)
-
-    # Убедимся, что длины списков совпадают
-    length = min(len(weather_ids), len(min_temp), len(max_temp))
-
-    # Возвращаем срезы списков до минимальной длины
-    return weather_ids[:length], min_temp[:length], max_temp[:length]
+    return weather_ids, min_temp, max_temp
